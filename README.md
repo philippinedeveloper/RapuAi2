@@ -13,4 +13,4 @@ Changed the name of GetComponentByName to GetComponent, to avoid confusion with 
 
 V1.3 Changelog:
 
-Added NEW blocks (SetProperty & ClickListener)
+Added NEW blocks (SetProperty, ClickListener, Click & ListComponents)
