@@ -1,10 +1,8 @@
-/* Extension written by Bextdev
+/* Extension written by Bextdev, written on the 28th of December 2024
+ * 
+ * Bits of code written by yusufcihan & Kumaraswamy B G
  *
- * Thanks to @Kumaraswamy & @YusufCihan, Creator of Itoo & Dynamic Components respectively, For writing bits of code
- *
- * Extension is licensed under GNU General Public License V2
- *
- * Extension written in Niotron IDE
+ * Licensed under GNU General Public License V2
  *
  */
 
@@ -13,6 +11,8 @@ package ph.bxtdev.Rapu;
 import android.util.Log;
 import android.app.Activity;
 import android.content.Context;
+import android.view.View;
+import android.widget.FrameLayout; // Changed to FrameLayout
 import com.google.appinventor.components.annotations.*;
 import com.google.appinventor.components.common.ComponentCategory;
 import com.google.appinventor.components.runtime.*;
@@ -30,7 +30,8 @@ import gnu.mapping.LocationEnumeration;
 import com.google.appinventor.components.runtime.Component;
 
 @DesignerComponent(
-        version = 1,
+        version = 2,
+        versionName = "1.1",
         description = "Gets List of Components & Using the List, It will create components",
         category = ComponentCategory.EXTENSION,
         nonVisible = true,
@@ -44,6 +45,8 @@ public class Rapu extends AndroidNonvisibleComponent {
     private Context context;
     private Activity activity;
     private Form form;
+    private Map<String, Component> components = new HashMap<>();
+    private Map<String, Component> newComponents = new HashMap<>();
 
     public Rapu(ComponentContainer container) {
         super(container.$form());
@@ -52,9 +55,8 @@ public class Rapu extends AndroidNonvisibleComponent {
         form = container.$form();
     }
 
-    @SimpleFunction(description = "Creates components dynamically on the layout and copies methods from existing components")
-    public void Create(AndroidViewComponent layout) {
-        Map<String, Component> components;
+    @SimpleFunction(description = "Copies every component on-screen by creating components dynamically")
+    public void Copy(AndroidViewComponent layout, int id) {
         try {
             if (form instanceof ReplForm) {
                 components = mapComponentsRepl();
@@ -62,6 +64,7 @@ public class Rapu extends AndroidNonvisibleComponent {
                 components = mapComponents();
             }
 
+            // Dynamically create components and add them to newComponents map
             for (Map.Entry<String, Component> entry : components.entrySet()) {
                 String componentName = entry.getKey();
                 Component originalComponent = entry.getValue();
@@ -71,13 +74,64 @@ public class Rapu extends AndroidNonvisibleComponent {
                     Constructor<?> constructor = componentClass.getConstructor(ComponentContainer.class);
                     Component newComponent = (Component) constructor.newInstance(layout);
 
+                    // Add "true" to the name to indicate it's created via reflection
+                    newComponents.put(componentName + id + "true", newComponent);
                 } catch (Exception e) {
                     Log.e("Rapu", "Error creating component: " + componentName, e);
                 }
             }
         } catch (Exception e) {
-            Log.e("Rapu", "Error in Create method", e);
+            Log.e("Rapu", "Error in Copy method", e);
         }
+    }
+
+    @SimpleFunction(description = "Creates components dynamically")
+    public void Create(AndroidViewComponent layout, String componentName, int id) {
+        try {
+            Class<?> clazz = Class.forName("com.google.appinventor.components.runtime." + componentName);
+            Constructor<?> constructor = clazz.getConstructor(ComponentContainer.class);
+            Component newComponent = (Component) constructor.newInstance(layout);
+
+            // Add "true" to the name to indicate it's created via reflection
+            newComponents.put(componentName + id + "true", newComponent);
+        } catch (Exception e) {
+            Log.e("Rapu", "Error creating component: " + componentName, e);
+        }
+    }
+
+    @SimpleFunction(description = "Removes a dynamically created component")
+    public void Remove(AndroidViewComponent layout, String componentName) {
+        Component component = newComponents.get(componentName + "true");
+        if (component instanceof AndroidViewComponent) {
+            AndroidViewComponent androidComponent = (AndroidViewComponent) component;
+            View view = layout.getView();
+            FrameLayout layoutView = (FrameLayout) view; // Changed to FrameLayout
+            layoutView.removeView(androidComponent.getView());
+            newComponents.remove(componentName); // Remove from newComponents map
+        }
+    }
+
+
+    @SimpleFunction(description = "Moves a dynamically created component to another layout")
+    public void Move(AndroidViewComponent layout, AndroidViewComponent newLayout, String componentName) {
+        Component component = newComponents.get(componentName + "true");
+        if (component instanceof AndroidViewComponent) {
+            AndroidViewComponent androidComponent = (AndroidViewComponent) component;
+            View sourceView = layout.getView();
+            View targetView = newLayout.getView();
+            FrameLayout sourceLayout = (FrameLayout) sourceView; // Changed to FrameLayout
+            FrameLayout targetLayout = (FrameLayout) targetView; // Changed to FrameLayout
+            sourceLayout.removeView(androidComponent.getView());
+            targetLayout.addView(androidComponent.getView());
+        }
+    }
+
+    @SimpleFunction(description = "Gets a component by its name (with 'true' suffix)")
+    public Object GetComponentByName(String componentName) {
+        if (componentName != null) {
+            return (Component) newComponents.get(componentName + "true");
+        }
+        return null; 
     }
 
     private Map<String, Component> mapComponents() throws NoSuchFieldException, IllegalAccessException {
