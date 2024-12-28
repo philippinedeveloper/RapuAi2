@@ -4,6 +4,8 @@
  *
  * Extension is licensed under GNU General Public License V2
  *
+ * Extension written in Niotron IDE
+ *
  */
 
 package ph.bxtdev.Rapu;
@@ -14,9 +16,6 @@ import android.content.Context;
 import com.google.appinventor.components.annotations.*;
 import com.google.appinventor.components.common.ComponentCategory;
 import com.google.appinventor.components.runtime.*;
-import android.widget.TextView;
-import android.widget.EditText;
-import android.view.ViewGroup.LayoutParams;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
