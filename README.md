@@ -10,3 +10,7 @@ Changed the name of "Create" (V1 block, copies components dynamically) to "Copy"
 V1.2 Changelog:
 
 Changed the name of GetComponentByName to GetComponent, to avoid confusion with <a href="https://community.appinventor.mit.edu/t/how-do-i-get-component-in-java/125378/9">a created extension</a>
+
+V1.3 Changelog:
+
+Added NEW blocks (SetProperty & ClickListener)
