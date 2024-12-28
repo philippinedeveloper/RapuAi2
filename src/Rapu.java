@@ -12,13 +12,12 @@ import android.util.Log;
 import android.app.Activity;
 import android.content.Context;
 import android.view.View;
-import android.widget.FrameLayout; // Changed to FrameLayout
+import android.view.ViewGroup;
 import com.google.appinventor.components.annotations.*;
 import com.google.appinventor.components.common.ComponentCategory;
 import com.google.appinventor.components.runtime.*;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
@@ -100,31 +99,53 @@ public class Rapu extends AndroidNonvisibleComponent {
     }
 
     @SimpleFunction(description = "Removes a dynamically created component")
-    public void Remove(AndroidViewComponent layout, String componentName) {
-        Component component = newComponents.get(componentName + "true");
-        if (component instanceof AndroidViewComponent) {
-            AndroidViewComponent androidComponent = (AndroidViewComponent) component;
-            View view = layout.getView();
-            FrameLayout layoutView = (FrameLayout) view; // Changed to FrameLayout
-            layoutView.removeView(androidComponent.getView());
+public void Remove(AndroidViewComponent layout, String componentName) {
+    Component component = newComponents.get(componentName + "true");
+    if (component instanceof AndroidViewComponent) {
+        AndroidViewComponent androidComponent = (AndroidViewComponent) component;
+        View view = layout.getView();
+
+        // Ensure the layout is a ViewGroup (can be LinearLayout, FrameLayout, etc.)
+        if (view instanceof ViewGroup) {
+            ViewGroup layoutView = (ViewGroup) view;
+
+            // Ensure to remove the component from its current parent layout if it has one
+            View componentView = androidComponent.getView();
+            if (componentView.getParent() != null) {
+                ((ViewGroup) componentView.getParent()).removeView(componentView);
+            }
+
+            layoutView.removeView(componentView); // Remove the component from the layout
             newComponents.remove(componentName); // Remove from newComponents map
         }
     }
+}
 
+@SimpleFunction(description = "Moves a dynamically created component to another layout")
+public void Move(AndroidViewComponent layout, AndroidViewComponent newLayout, String componentName) {
+    Component component = newComponents.get(componentName + "true");
+    if (component instanceof AndroidViewComponent) {
+        AndroidViewComponent androidComponent = (AndroidViewComponent) component;
+        View sourceView = layout.getView();
+        View targetView = newLayout.getView();
 
-    @SimpleFunction(description = "Moves a dynamically created component to another layout")
-    public void Move(AndroidViewComponent layout, AndroidViewComponent newLayout, String componentName) {
-        Component component = newComponents.get(componentName + "true");
-        if (component instanceof AndroidViewComponent) {
-            AndroidViewComponent androidComponent = (AndroidViewComponent) component;
-            View sourceView = layout.getView();
-            View targetView = newLayout.getView();
-            FrameLayout sourceLayout = (FrameLayout) sourceView; // Changed to FrameLayout
-            FrameLayout targetLayout = (FrameLayout) targetView; // Changed to FrameLayout
-            sourceLayout.removeView(androidComponent.getView());
-            targetLayout.addView(androidComponent.getView());
+        // Ensure both views are instances of ViewGroup
+        if (sourceView instanceof ViewGroup && targetView instanceof ViewGroup) {
+            ViewGroup sourceLayout = (ViewGroup) sourceView;
+            ViewGroup targetLayout = (ViewGroup) targetView;
+
+            // Remove the component from its current parent layout
+            View componentView = androidComponent.getView();
+            if (componentView.getParent() != null) {
+                ((ViewGroup) componentView.getParent()).removeView(componentView);
+            }
+
+            // Add the component to the new layout
+            targetLayout.addView(componentView);
         }
     }
+}
+
 
     @SimpleFunction(description = "Gets a component by its name (with 'true' suffix)")
     public Object GetComponentByName(String componentName) {
