@@ -14,3 +14,7 @@ Changed the name of GetComponentByName to GetComponent, to avoid confusion with 
 V1.3 Changelog:
 
 Added NEW blocks (SetProperty, ClickListener, Click & ListComponents)
+
+V1.4 Changelog:
+
+Added NEW blocks (getter & setter methods for PaddingTop & Bottom, Opacity, Elevation, Left, Right, PivotX & Y, RotationX & Y) 
