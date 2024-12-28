@@ -6,6 +6,7 @@
  *
  */
 
+
 package ph.bxtdev.Rapu;
 
 import android.util.Log;
@@ -31,8 +32,8 @@ import gnu.mapping.LocationEnumeration;
 import com.google.appinventor.components.runtime.Component;
 
 @DesignerComponent(
-        version = 4,
-        versionName = "1.3",
+        version = 5,
+        versionName = "1.4",
         description = "Gets List of Components & Using the List, It will create components",
         category = ComponentCategory.EXTENSION,
         nonVisible = true,
@@ -55,6 +56,107 @@ public class Rapu extends AndroidNonvisibleComponent {
         this.context = container.$context();
         this.form = container.$form();
     }
+
+    @SimpleFunction(description = "Gets the padding top of a given view")
+public int GetPaddingTop(AndroidViewComponent layout) {
+    return layout.getView().getPaddingTop();
+}
+
+@SimpleFunction(description = "Gets the padding bottom of a given view")
+public int GetPaddingBottom(AndroidViewComponent layout) {
+    return layout.getView().getPaddingBottom();
+}
+
+@SimpleFunction(description = "Gets the opacity of a given view")
+public int GetOpacity(AndroidViewComponent layout) {
+    return (int) layout.getView().getAlpha(); // `getAlpha()` returns a float, so cast it to int if you want an integer representation
+}
+
+@SimpleFunction(description = "Gets the elevation of a given view")
+public float GetElevation(AndroidViewComponent layout) {
+    return layout.getView().getElevation();
+}
+
+@SimpleFunction(description = "Gets the left position of a given view")
+public int GetLeft(AndroidViewComponent layout) {
+    return layout.getView().getLeft();
+}
+
+@SimpleFunction(description = "Gets the right position of a given view")
+public int GetRight(AndroidViewComponent layout) {
+    return layout.getView().getRight();
+}
+
+@SimpleFunction(description = "Gets the pivot X value of a given view")
+public float GetPivotX(AndroidViewComponent layout) {
+    return layout.getView().getPivotX();
+}
+
+@SimpleFunction(description = "Gets the pivot Y value of a given view")
+public float GetPivotY(AndroidViewComponent layout) {
+    return layout.getView().getPivotY();
+}
+
+@SimpleFunction(description = "Gets the rotation X value of a given view")
+public float GetRotationX(AndroidViewComponent layout) {
+    return layout.getView().getRotationX();
+}
+
+@SimpleFunction(description = "Gets the rotation Y value of a given view")
+public float GetRotationY(AndroidViewComponent layout) {
+    return layout.getView().getRotationY();
+}
+
+   @SimpleFunction(description = "Sets the padding top of a given view")
+public void SetPaddingTop(AndroidViewComponent layout, int paddingTop) {
+    layout.getView().setPadding(layout.getView().getPaddingLeft(), paddingTop, layout.getView().getPaddingRight(), layout.getView().getPaddingBottom());
+}
+
+@SimpleFunction(description = "Sets the padding bottom of a given view")
+public void SetPaddingBottom(AndroidViewComponent layout, int paddingBottom) {
+    layout.getView().setPadding(layout.getView().getPaddingLeft(), layout.getView().getPaddingTop(), layout.getView().getPaddingRight(), paddingBottom);
+}
+
+@SimpleFunction(description = "Sets the opacity of a given view")
+public void SetOpacity(AndroidViewComponent layout, float opacity) {
+    layout.getView().setAlpha(opacity); // Opacity is controlled by alpha value (0.0 - 1.0)
+}
+
+@SimpleFunction(description = "Sets the elevation of a given view")
+public void SetElevation(AndroidViewComponent layout, float elevation) {
+    layout.getView().setElevation(elevation);
+}
+
+@SimpleFunction(description = "Sets the left position of a given view")
+public void SetLeft(AndroidViewComponent layout, int left) {
+    layout.getView().setLeft(left); // This method doesn't really work as expected, use layoutParams for true positioning
+}
+
+@SimpleFunction(description = "Sets the right position of a given view")
+public void SetRight(AndroidViewComponent layout, int right) {
+    layout.getView().setRight(right); // Same as left, use layoutParams for true positioning
+}
+
+@SimpleFunction(description = "Sets the pivot X value of a given view")
+public void SetPivotX(AndroidViewComponent layout, float pivotX) {
+    layout.getView().setPivotX(pivotX);
+}
+
+@SimpleFunction(description = "Sets the pivot Y value of a given view")
+public void SetPivotY(AndroidViewComponent layout, float pivotY) {
+    layout.getView().setPivotY(pivotY);
+}
+
+@SimpleFunction(description = "Sets the rotation X value of a given view")
+public void SetRotationX(AndroidViewComponent layout, float rotationX) {
+    layout.getView().setRotationX(rotationX);
+}
+
+@SimpleFunction(description = "Sets the rotation Y value of a given view")
+public void SetRotationY(AndroidViewComponent layout, float rotationY) {
+    layout.getView().setRotationY(rotationY);
+}
+
 
     @SimpleFunction(description = "Lists all existing components")
     public String ListComponents() {
@@ -142,27 +244,33 @@ public class Rapu extends AndroidNonvisibleComponent {
     }
 
     @SimpleFunction(description = "Copies every component on-screen by creating components dynamically")
-    public void Copy(AndroidViewComponent layout, int id) {
-        try {
-            components = form instanceof ReplForm ? mapComponentsRepl() : mapComponents();
+public void Copy(AndroidViewComponent layout, int id) {
+    try {
+        components = form instanceof ReplForm ? mapComponentsRepl() : mapComponents();
 
-            for (Map.Entry<String, Component> entry : components.entrySet()) {
-                String componentName = entry.getKey();
-                Component originalComponent = entry.getValue();
-                Class<?> componentClass = originalComponent.getClass();
+        for (Map.Entry<String, Component> entry : components.entrySet()) {
+            String componentName = entry.getKey();
+            Component originalComponent = entry.getValue();
 
-                try {
-                    Constructor<?> constructor = componentClass.getConstructor(ComponentContainer.class);
-                    Component newComponent = (Component) constructor.newInstance(layout);
-                    newComponents.put(componentName + id + "true", newComponent);
-                } catch (Exception e) {
-                    Log.e("Rapu", "Error creating component: " + componentName, e);
-                }
+            if (originalComponent == null) {
+                Log.e("Rapu", "Skipping null component: " + componentName);
+                continue; 
             }
-        } catch (Exception e) {
-            Log.e("Rapu", "Error in Copy method", e);
+
+            Class<?> componentClass = originalComponent.getClass();
+
+            try {
+                Constructor<?> constructor = componentClass.getConstructor(ComponentContainer.class);
+                Component newComponent = (Component) constructor.newInstance(layout);
+                newComponents.put(componentName + id + "true", newComponent);
+            } catch (Exception e) {
+                Log.e("Rapu", "Error creating component: " + componentName, e);
+            }
         }
+    } catch (Exception e) {
+        Log.e("Rapu", "Error in Copy method", e);
     }
+}
 
     @SimpleFunction(description = "Creates components dynamically")
     public void Create(AndroidViewComponent layout, String componentName, int id) {
