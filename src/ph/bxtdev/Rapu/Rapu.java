@@ -1,3 +1,11 @@
+/* Extension written by Bextdev, written on the 28th of December 2024
+ * 
+ * Bits of code written by yusufcihan & Kumaraswamy B G
+ *
+ * Licensed under GNU General Public License V2
+ *
+ */
+
 package ph.bxtdev.Rapu;
 
 import android.util.Log;
