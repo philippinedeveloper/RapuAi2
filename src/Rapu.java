@@ -1,3 +1,11 @@
+/* Extension written by Bextdev
+ *
+ * Thanks to @Kumaraswamy & @YusufCihan, Creator of Itoo & Dynamic Components respectively, For writing bits of code
+ *
+ * Extension is licensed under GNU General Public License V2
+ *
+ */
+
 package ph.bxtdev.Rapu;
 
 import android.util.Log;
