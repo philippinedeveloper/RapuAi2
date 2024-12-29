@@ -22,3 +22,10 @@ Added NEW blocks (getter & setter methods for PaddingTop & Bottom, Opacity, Elev
 V1.5 Changelog:
 
 Added NEW blocks (EnableDrag, EnableLongClickListener, EnableTouchListener, TouchReleased (for EnableDrag), TouchUp, TouchDown, LongClick
+
+<h2>Rapu V2.0.0 is here! 🎉</h2>
+<h3>Changelog of Rapu V2.0.0</h3>
+
+Added NEW blocks (GetParent & Children)
+
+You can now use the green blocks (with component name) in ClickListener!
