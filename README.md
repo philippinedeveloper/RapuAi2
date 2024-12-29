@@ -18,3 +18,7 @@ Added NEW blocks (SetProperty, ClickListener, Click & ListComponents)
 V1.4 Changelog:
 
 Added NEW blocks (getter & setter methods for PaddingTop & Bottom, Opacity, Elevation, Left, Right, PivotX & Y, RotationX & Y) 
+
+V1.5 Changelog:
+
+Added NEW blocks (EnableDrag, EnableLongClickListener, EnableTouchListener, TouchReleased (for EnableDrag), TouchUp, TouchDown, LongClick
