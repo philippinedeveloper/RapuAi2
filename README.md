@@ -40,7 +40,7 @@ BROUGHT BACK: Dragging & Dropping functionality (EnableDragAndDrop, DragStart, D
 
 Removed Touch Released
 
-V2.3 Changelog (Unreleased):
+V2.3 Changelog:
 
 BROUGHT BACK: GetComponent block
 
