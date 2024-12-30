@@ -29,3 +29,7 @@ Added NEW blocks (EnableDrag, EnableLongClickListener, EnableTouchListener, Touc
 Added NEW blocks (GetParent & Children)
 
 You can now use the green blocks (with component name) in ClickListener!
+
+V2.1 Changelog:
+
+Some revisions of extension code
