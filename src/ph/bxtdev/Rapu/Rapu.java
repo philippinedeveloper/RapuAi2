@@ -24,6 +24,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.HashSet;
 import gnu.lists.LList;
 import gnu.mapping.SimpleSymbol;
 import gnu.mapping.Environment;
@@ -32,8 +33,8 @@ import gnu.mapping.LocationEnumeration;
 import com.google.appinventor.components.runtime.Component;
 
 @DesignerComponent(
-        version = 7,
-        versionName = "2.0",
+        version = 8,
+        versionName = "2.1",
         description = "Gets List of Components & Using the List, It will create components",
         category = ComponentCategory.EXTENSION,
         nonVisible = true,
@@ -70,7 +71,6 @@ public class Rapu extends AndroidNonvisibleComponent {
                 String originalComponentName = originalComponent.getClass().getSimpleName();
 
                 try {
-                    // Check if the component already exists in newComponents
                     if (!newComponents.containsKey(componentName + id + "true")) {
                         Create(layout, originalComponentName, id);
                     } else {
@@ -178,19 +178,17 @@ public class Rapu extends AndroidNonvisibleComponent {
             @Override
             public boolean onLongClick(View v) {
                 LongClick();
-                return true; // Return true to indicate the event is consumed
+                return true;
             }
         });
     }
 
     @SimpleFunction(description = "Enables click listener on a component")
     public void EnableClickListener(AndroidViewComponent component) {
-      // Set an OnClickListener on the provided AndroidViewComponent
        View view = component.getView();
        view.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View v) {
-             // Trigger the Click event when the view is clicked
               Click();
           }
        });
@@ -219,7 +217,7 @@ public class Rapu extends AndroidNonvisibleComponent {
 
     @SimpleFunction(description = "Gets the opacity of a given view")
     public int GetOpacity(AndroidViewComponent component) {
-        return (int) component.getView().getAlpha(); // getAlpha() returns a float, so cast it to int if you want an integer representation
+        return (int) component.getView().getAlpha(); 
     }
 
     @SimpleFunction(description = "Gets the elevation of a given view")
@@ -269,7 +267,7 @@ public class Rapu extends AndroidNonvisibleComponent {
 
     @SimpleFunction(description = "Sets the opacity of a given view")
     public void SetOpacity(AndroidViewComponent component, float opacity) {
-        component.getView().setAlpha(opacity); // Opacity is controlled by alpha value (0.0 - 1.0)
+        component.getView().setAlpha(opacity); 
     }
 
     @SimpleFunction(description = "Sets the elevation of a given view")
@@ -279,12 +277,12 @@ public class Rapu extends AndroidNonvisibleComponent {
 
     @SimpleFunction(description = "Sets the left position of a given view")
     public void SetLeft(AndroidViewComponent component, int left) {
-        component.getView().setLeft(left); // This method doesn't really work as expected, use componentParams for true positioning
+        component.getView().setLeft(left); 
     }
 
     @SimpleFunction(description = "Sets the right position of a given view")
     public void SetRight(AndroidViewComponent component, int right) {
-        component.getView().setRight(right); // Same as left, use componentParams for true positioning
+        component.getView().setRight(right); 
     }
 
     @SimpleFunction(description = "Sets the pivot X value of a given view")
@@ -326,33 +324,33 @@ public class Rapu extends AndroidNonvisibleComponent {
         View view = component.getView();
         if (view.getParent() instanceof ViewGroup) {
             ViewGroup parentView = (ViewGroup) view.getParent();
-            // Find the associated AndroidViewComponent in the newComponents map
             for (Component comp : newComponents.values()) {
                 if (comp instanceof AndroidViewComponent && ((AndroidViewComponent) comp).getView() == parentView) {
                     return comp;
                 }
             }
         }
-        return null; // Return null if no parent component is found
+        return null; 
     }
+
 
     @SimpleFunction(description = "Gets the children of a given component")
     public Object GetChildren(AndroidViewComponent component) {
-        ViewGroup parentView = (ViewGroup) component.getView();
-        HashMap<Integer, Object> childrenMap = new HashMap<>();
+       ViewGroup parentView = (ViewGroup) component.getView();
+       HashSet<Object> childrenSet = new HashSet<>();
 
-        if (parentView != null) {
-            int childCount = parentView.getChildCount();
-            for (int i = 0; i < childCount; i++) {
-                View childView = parentView.getChildAt(i);
-                for (Component comp : newComponents.values()) {
-                    if (comp instanceof AndroidViewComponent && ((AndroidViewComponent) comp).getView() == childView) {
-                        childrenMap.put(i, comp);
-                    }
+       if (parentView != null) {
+          int childCount = parentView.getChildCount();
+          for (int i = 0; i < childCount; i++) {
+            View childView = parentView.getChildAt(i);
+            for (Component comp : newComponents.values()) {
+                if (comp instanceof AndroidViewComponent && ((AndroidViewComponent) comp).getView() == childView) {
+                    childrenSet.add(comp);
                 }
-            }
-        }
-        return childrenMap;
+             }
+          }
+       }
+          return YailList.makeList(childrenSet).toArray();
     }
 
     private Map<String, Component> mapComponentsRepl() throws NoSuchFieldException, IllegalAccessException {
@@ -373,4 +371,5 @@ public class Rapu extends AndroidNonvisibleComponent {
         return componentsMap;
     }
 }
+
 
