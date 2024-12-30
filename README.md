@@ -36,6 +36,10 @@ Some revisions of extension code
 
 V2.2 Changelog:
 
-Added NEW Block: Dragging & Dropping functionality (EnableDragAndDrop, DragStart, Dragging, Drop)
+BROUGHT BACK: Dragging & Dropping functionality (EnableDragAndDrop, DragStart, Dragging, Drop)
 
 Removed Touch Released
+
+V2.3 Changelog (Unreleased):
+
+BROUGHT BACK: GetComponent block
