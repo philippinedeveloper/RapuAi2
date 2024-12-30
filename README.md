@@ -34,7 +34,7 @@ V2.1 Changelog:
 
 Some revisions of extension code
 
-V2.2 Changelog (Unreleased):
+V2.2 Changelog:
 
 Added NEW Block: Dragging & Dropping functionality (EnableDragAndDrop, DragStart, Dragging, Drop)
 
