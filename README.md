@@ -33,3 +33,7 @@ You can now use the green blocks (with component name) in ClickListener!
 V2.1 Changelog:
 
 Some revisions of extension code
+
+V2.2 Changelog (Unreleased):
+
+Added Dragging & Dropping functionality
