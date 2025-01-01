@@ -54,4 +54,4 @@ Migrated to Rush for more releases
 
 V2.5 Changelog:
 
-Optimized extension
+Optimized extension from 20 KB to 14 KB
