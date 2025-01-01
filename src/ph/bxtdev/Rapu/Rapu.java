@@ -47,7 +47,6 @@ public class Rapu extends AndroidNonvisibleComponent {
         this.form = container.$form();
     }
 
-
     @SimpleFunction(description = "Copies every component on-screen by creating components dynamically")
     public void Copy(AndroidViewComponent layout, int id) {
         try {
@@ -525,5 +524,67 @@ public void Drop(AndroidViewComponent component, int x, int y) {
     public Object GetComponent(String componentName){
       return (Component) newComponents.get(componentName + true);
     }
+
+      @SimpleFunction(description = "Checks whether the component is currently able to take focus.")
+    public boolean IsFocusable(AndroidViewComponent component) {
+        View view = component.getView();
+        return view.isFocusable();
+    }
+
+       @SimpleFunction(description = "Set whether this component can receive the focus.")
+    public void SetFocusable(AndroidViewComponent component, boolean focusable) {
+        View view = component.getView();
+        view.setFocusable(focusable);
+    }
+
+        @SimpleFunction(description = "Registers the component so that when the user focuses or removes focus for the component, it will fire the respective event.")
+    public void RegisterFocus(final AndroidViewComponent component) {
+        View view = component.getView();
+            view.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        @Override
+        public void onFocusChange(View v, boolean hasFocus) {
+        if (hasFocus) {
+            GotFocus(component);
+        } else {
+            LostFocus(component);
+        }
+        }
+    });
+    }
+
+     @SimpleEvent(description = "This event is fired when a registered component is focused.")
+    public void GotFocus(AndroidViewComponent component){
+        EventDispatcher.dispatchEvent(this, "GotFocus", component);
+    }
+    @SimpleEvent(description = "This event is fired when a registered component has focus removed.")
+    public void LostFocus(AndroidViewComponent component){
+        EventDispatcher.dispatchEvent(this, "LostFocus", component);
+    }
+   
+    @SimpleFunction(description = "Sets property")
+    public void SetProperty(AndroidViewComponent component, String propertyName, Object value) {
+      try {
+         Method method = component.getClass().getMethod(propertyName, value.getClass()); 
+        
+         if (method.getParameterTypes()[0] == Integer.class) {
+            int intValue = Integer.parseInt(value.toString()); // Convert the value to int
+            method.invoke(component, intValue);
+         } else if (method.getParameterTypes()[0] == Boolean.class) {
+            boolean boolValue = Boolean.parseBoolean(value.toString()); // Convert the value to boolean
+            method.invoke(component, boolValue);
+         } else if (method.getParameterTypes()[0] == Float.class) {
+            float floatValue = Float.parseFloat(value.toString()); // Convert the value to float
+            method.invoke(component, floatValue);
+         } else if (method.getParameterTypes()[0] == Double.class) {
+            double doubleValue = Double.parseDouble(value.toString()); // Convert the value to double
+            method.invoke(component, doubleValue);
+         } else if (method.getParameterTypes()[0] == String.class) {
+            String stringValue = value.toString(); // Convert the value to string
+            method.invoke(component, stringValue);
+         }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+  }
 }
 
