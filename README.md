@@ -57,3 +57,9 @@ Migrated to Rush for more releases
 V2.5 Changelog:
 
 Optimized extension from 20 KB to 14 KB
+
+V2.6 Changelog:
+
+BROUGHT BACK: Enabling/Checking Focusable enabled
+
+Added NEW blocks (RegisterFocus)
