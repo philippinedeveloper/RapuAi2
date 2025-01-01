@@ -23,8 +23,8 @@ V1.5 Changelog:
 
 Added NEW blocks (EnableDrag, EnableLongClickListener, EnableTouchListener, TouchReleased (for EnableDrag), TouchUp, TouchDown, LongClick
 
-<h2>Rapu V2.0.0 is here! 🎉</h2>
-<h3>Changelog of Rapu V2.0.0</h3>
+## Rapu V2.0.0 is here! 🎉 (discontinued)</h2>
+### Changelog of Rapu V2.0.0</h3>
 
 Added NEW blocks (GetParent & Children)
 
@@ -58,8 +58,15 @@ V2.5 Changelog:
 
 Optimized extension from 20 KB to 14 KB
 
-V2.6 Changelog:
+V2.6 Changelog (SPECIAL RELEASE):
+
+What is a special release?, This is a special release, normally I hop into another version quickly after like V1.5, then its V2.0, but this is different, I do it so rarely
 
 BROUGHT BACK: Enabling/Checking Focusable enabled
 
 Added NEW blocks (RegisterFocus)
+
+## Rapu V3.0.0 is here 🎉!
+### Changelog of Rapu V3:
+
+BROUGHT BACK: SetProperty block.
