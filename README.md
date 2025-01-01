@@ -48,6 +48,10 @@ Added NEW Blocks: (getter & setter for Translations (X/Y), Scaling (X/Y), Top, B
 
 V2.4 Changelog (New Year Release):
 
-Removed Icon
+Removed Copy Icon
 
 Migrated to Rush for more releases
+
+V2.5 Changelog:
+
+Optimized extension
