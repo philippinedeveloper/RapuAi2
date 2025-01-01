@@ -7,7 +7,7 @@ description: Extension component for Rapu. Created using Rush.
 
 version:
   number: auto
-  name: '3.0'
+  name: '3.1'
 
 authors:
   - Bxtdev

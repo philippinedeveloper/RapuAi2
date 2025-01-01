@@ -560,44 +560,5 @@ public void Drop(AndroidViewComponent component, int x, int y) {
     public void LostFocus(AndroidViewComponent component){
         EventDispatcher.dispatchEvent(this, "LostFocus", component);
     }
-    
-   @SimpleFunction(description = "Sets property")
-public void SetProperty(AndroidViewComponent component, String propertyName, Object value) {
-    try {
-        // Get the method from the component that matches the property name
-        Method method = component.getClass().getMethod(propertyName, value.getClass());
-        
-        // Get the parameter types of the method
-        Class<?>[] parameterTypes = method.getParameterTypes();
-        
-        // Convert value to an array of parameters
-        Object[] parameters = new Object[parameterTypes.length];
-
-        // Loop through each parameter type and parse the value accordingly
-        for (int i = 0; i < parameterTypes.length; i++) {
-            String stringValue = String.valueOf(value); // Convert to string representation
-            
-            if (parameterTypes[i] == Integer.class || parameterTypes[i] == int.class) {
-                parameters[i] = Integer.parseInt(stringValue); // Convert to int
-            } else if (parameterTypes[i] == Float.class || parameterTypes[i] == float.class) {
-                parameters[i] = Float.parseFloat(stringValue); // Convert to float
-            } else if (parameterTypes[i] == Double.class || parameterTypes[i] == double.class) {
-                parameters[i] = Double.parseDouble(stringValue); // Convert to double
-            } else if (parameterTypes[i] == Boolean.class || parameterTypes[i] == boolean.class) {
-                parameters[i] = Boolean.parseBoolean(stringValue); // Convert to boolean
-            } else if (parameterTypes[i] == String.class) {
-                parameters[i] = stringValue; // Convert to String
-            } else {
-                parameters[i] = value; // For unsupported types, just use the value as is
-            }
-        }
-
-        // Invoke the method with the parameters
-        method.invoke(component, parameters);
-        
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
-  }
 }
 
