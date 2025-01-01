@@ -32,17 +32,6 @@ import gnu.mapping.Location;
 import gnu.mapping.LocationEnumeration;
 import com.google.appinventor.components.runtime.Component;
 
-@DesignerComponent(
-        version = 8,
-        versionName = "2.1",
-        description = "Gets List of Components & Using the List, It will create components",
-        category = ComponentCategory.EXTENSION,
-        nonVisible = true,
-        iconName = "https://raw.githubusercontent.com/bextdev/Rapu/refs/heads/main/assets/direction%20(1).png"
-)
-@SimpleObject(external = true)
-@UsesLibraries(libraries = "")
-@UsesPermissions(permissionNames = "")
 public class Rapu extends AndroidNonvisibleComponent {
 
     private Context context;
@@ -166,11 +155,6 @@ public class Rapu extends AndroidNonvisibleComponent {
         EventDispatcher.dispatchEvent(this, "TouchUp");
     }
 
-    @SimpleEvent(description = "Triggered when the user releases the touch on the component")
-    public void TouchRelease() {
-        EventDispatcher.dispatchEvent(this, "TouchRelease");
-    }
-    
     @SimpleFunction(description = "Enables long click listener on a component")
     public void EnableLongClickListener(AndroidViewComponent component) {
         View view = component.getView();
@@ -370,6 +354,176 @@ public class Rapu extends AndroidNonvisibleComponent {
         componentsMap.putAll(fieldValue);
         return componentsMap;
     }
+
+    @SimpleFunction(description = "Enables drag and drop functionality on a component")
+public void EnableDragAndDrop(AndroidViewComponent component) {
+    View view = component.getView();
+
+    view.setOnTouchListener(new View.OnTouchListener() {
+        private float dX, dY;
+        private boolean isDragging = false;
+
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            switch (event.getActionMasked()) {
+                case MotionEvent.ACTION_DOWN:
+                    dX = v.getX() - event.getRawX();
+                    dY = v.getY() - event.getRawY();
+                    isDragging = true;
+                    DragStart(component);
+                    return true;
+
+                case MotionEvent.ACTION_MOVE:
+                    if (isDragging) {
+                        float newX = event.getRawX() + dX;
+                        float newY = event.getRawY() + dY;
+                        v.setX(newX);
+                        v.setY(newY);
+                        Dragged(component, (int) newX, (int) newY);
+                    }
+                    return true;
+
+                case MotionEvent.ACTION_UP:
+                case MotionEvent.ACTION_CANCEL:
+                    if (isDragging) {
+                        isDragging = false;
+                        Drop(component, (int) v.getX(), (int) v.getY());
+                    }
+                    return true;
+
+                default:
+                    return false;
+            }
+        }
+    });
 }
 
+@SimpleEvent(description = "Triggered when a drag operation starts")
+public void DragStart(AndroidViewComponent component) {
+    EventDispatcher.dispatchEvent(this, "DragStart", component);
+}
+
+@SimpleEvent(description = "Triggered when the component is being dragged")
+public void Dragged(AndroidViewComponent component, int x, int y) {
+    EventDispatcher.dispatchEvent(this, "Dragged", component, x, y);
+}
+
+@SimpleEvent(description = "Triggered when the component is dropped")
+public void Drop(AndroidViewComponent component, int x, int y) {
+    EventDispatcher.dispatchEvent(this, "Drop", component, x, y);
+}
+
+   @SimpleFunction(description = "Returns the horizontal location of this component relative to its left position." + 
+    " This position is post-layout, in addition to wherever the object's layout placed it.")
+    public float GetTranslationX(AndroidViewComponent component) {
+        View view = component.getView();
+        return view.getTranslationX();
+    }
+
+    @SimpleFunction(description = "Returns the horizontal location of this component relative to its top position." + 
+    " This position is post-layout, in addition to wherever the object's layout placed it.")
+    public float GetTranslationY(AndroidViewComponent component) {
+        View view = component.getView();
+        return view.getTranslationY();
+    }
+
+    @SimpleFunction(description = "Returns the depth location of this component relative to its elevation.")
+    public float GetTranslationZ(AndroidViewComponent component) {
+        View view = component.getView();
+        return view.getTranslationZ();
+    }
+
+      @SimpleFunction(description = "Returns the amount that the component is scaled in x around the pivot point, as a proportion of the view's unscaled width.")
+    public float GetScaleX(AndroidViewComponent component) {
+        View view = component.getView();
+        return view.getScaleX();
+    }
+
+    @SimpleFunction(description = "Returns the amount that the component is scaled in y around the pivot point, as a proportion of the view's unscaled height.")
+    public float GetScaleY(AndroidViewComponent component) {
+        View view = component.getView();
+        return view.getScaleY();
+    }
+
+    @SimpleFunction(description = "Returns the scrollbar size for this component.")
+    public int GetScrollBarSize(AndroidViewComponent component) {
+        View view = component.getView();
+        return view.getScrollBarSize();
+    }
+
+    @SimpleFunction(description = "Return the scrolled left position of this component. This is the left edge of the displayed part of your component." + 
+    " You do not need to draw any pixels farther left, since those are outside of the frame of your component on screen.")
+    public int GetScrollX(AndroidViewComponent component) {
+        View view = component.getView();
+        return view.getScrollX();
+    }
+
+    @SimpleFunction(description = "Return the scrolled top position of this component. This is the top edge of the displayed part of your component." + 
+    " You do not need to draw any pixels farther top, since those are outside of the frame of your component on screen.")
+    public int GetScrollY(AndroidViewComponent component) {
+        View view = component.getView();
+        return view.getScrollY();
+    }
+    
+     @SimpleFunction(description = "Sets the size of the scrollbar.")
+    public void SetScrollBarSize(AndroidViewComponent component, int size) {
+        View view = component.getView();
+        view.setScrollBarSize(size);
+    }
+
+    @SimpleFunction(description = "Sets the horizontal location of this component relative to its left position.")
+    public void SetTranslationX(AndroidViewComponent component, float translationX) {
+        View view = component.getView();
+        view.setTranslationX(translationX);
+    }
+
+    @SimpleFunction(description = "Sets the vertical location of this component relative to its top position.")
+    public void SetTranslationY(AndroidViewComponent component, float translationY) {
+        View view = component.getView();
+        view.setTranslationY(translationY);
+    }
+
+      @SimpleFunction(description = "Sets the amount that the component is scaled in x around the pivot point, as a proportion of the component's unscaled width." + 
+    " A value of 1 means that no scaling is applied.")
+    public void SetScaleX(AndroidViewComponent component, float scaleX){
+        View view = component.getView();
+        view.setScaleX(scaleX);
+    }
+
+    @SimpleFunction(description = "Sets the amount that the component is scaled in y around the pivot point, as a proportion of the component's unscaled height." + 
+    " A value of 1 means that no scaling is applied.")
+    public void SetScaleY(AndroidViewComponent component, float scaleY){
+        View view = component.getView();
+        view.setScaleY(scaleY);
+    }
+
+        @SimpleFunction(description = "Returns the bottom of this component, in pixels.")
+    public int GetBottom(AndroidViewComponent component) {
+        View view = component.getView();
+        return view.getBottom();
+    }
+
+     @SimpleFunction(description = "Returns the top edge of this component, in pixels.")
+    public int GetTop(AndroidViewComponent component) {
+        View view = component.getView();
+        return view.getTop();
+    }
+
+     @SimpleFunction(description = "Sets the top position of this component relative to its parent, in pixels.")
+    public void SetTop(AndroidViewComponent component, int top) {
+        View view = component.getView();
+        view.setTop(top);
+    }
+
+       @SimpleFunction(description = "Sets the bottom position of this component relative to its parent, in pixels.")
+    public void SetBottom(AndroidViewComponent component, int bottom) {
+        View view = component.getView();
+        view.setBottom(bottom);
+    }
+
+    @SimpleFunction(description = "Gets component using name & id")
+    public Object GetComponent(String componentName){
+      return (Component) newComponents.get(componentName + true);
+    }
+}
 
