@@ -46,7 +46,7 @@ BROUGHT BACK: GetComponent block
 
 Added NEW Blocks: (getter & setter for Translations (X/Y), Scaling (X/Y), Top, Bottom, & ScrollBarSize) & Enabling Focus & Checking if Focus is enabled
 
-V2.4 Changelog:
+V2.4 Changelog (New Year Release):
 
 Removed Icon
 
