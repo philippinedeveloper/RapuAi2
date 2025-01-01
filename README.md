@@ -50,6 +50,8 @@ V2.4 Changelog (New Year Release):
 
 Removed Copy Icon
 
+Removed Enabling/Checking Focusable enabled
+
 Migrated to Rush for more releases
 
 V2.5 Changelog:
