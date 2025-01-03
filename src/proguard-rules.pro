@@ -5,7 +5,6 @@
     public *;
  }
 -keeppackagenames gnu.kawa**, gnu.expr**
--dontwarn
 
 -optimizationpasses 4
 -allowaccessmodification

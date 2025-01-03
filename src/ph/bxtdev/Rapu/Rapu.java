@@ -336,23 +336,37 @@ public class Rapu extends AndroidNonvisibleComponent {
           return YailList.makeList(childrenSet).toArray();
     }
 
-    private Map<String, Component> mapComponentsRepl() throws NoSuchFieldException, IllegalAccessException {
-        Map<String, Component> componentsMap = new HashMap<>();
-        Field field = form.getClass().getDeclaredField("components");
-        field.setAccessible(true);
-        Map<String, Component> fieldValue = (Map<String, Component>) field.get(form);
-        componentsMap.putAll(fieldValue);
-        return componentsMap;
-    }
-
     private Map<String, Component> mapComponents() throws NoSuchFieldException, IllegalAccessException {
-        Map<String, Component> componentsMap = new HashMap<>();
-        Field field = form.getClass().getDeclaredField("components");
-        field.setAccessible(true);
-        Map<String, Component> fieldValue = (Map<String, Component>) field.get(form);
-        componentsMap.putAll(fieldValue);
-        return componentsMap;
+     Map<String, Component> components = new HashMap<>();
+     Field componentsField = form.getClass().getField("components$Mnto$Mncreate");
+     LList listComponents = (LList) componentsField.get(form);
+     for (Object component : listComponents) {
+      LList lList = (LList) component;
+      SimpleSymbol symbol = (SimpleSymbol) lList.get(2);
+      String componentName = symbol.getName();
+      Object value = form.getClass().getField(componentName).get(form);
+      if (value instanceof Component) {
+        components.put(componentName, (Component) value);
+      }
     }
+    return components;
+  }
+
+   private Map<String, Component> mapComponentsRepl() throws NoSuchFieldException, IllegalAccessException {
+    Map<String, Component> components = new HashMap<>();
+    Field field = form.getClass().getField("form$Mnenvironment");
+    Environment environment = (Environment) field.get(form);
+    LocationEnumeration locationEnumeration = environment.enumerateAllLocations();
+    while (locationEnumeration.hasMoreElements()) {
+      Location location = locationEnumeration.next();
+      String componentName = location.getKeySymbol().getName();
+      Object value = location.getValue();
+      if (value instanceof Component) {
+        components.put(componentName, (Component) value);
+      }
+    }
+    return components;
+  }
 
     @SimpleFunction(description = "Enables drag and drop functionality on a component")
 public void EnableDragAndDrop(AndroidViewComponent component) {
@@ -561,4 +575,3 @@ public void Drop(AndroidViewComponent component, int x, int y) {
         EventDispatcher.dispatchEvent(this, "LostFocus", component);
     }
 }
-
