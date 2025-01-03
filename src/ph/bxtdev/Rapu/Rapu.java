@@ -47,6 +47,30 @@ public class Rapu extends AndroidNonvisibleComponent {
         this.form = container.$form();
     }
 
+    @SimpleFunction
+public void BackgroundColor(AndroidViewComponent component, int backgroundColor) {
+    component.getView().setBackgroundColor(backgroundColor);
+}
+
+@SimpleFunction
+public void TextColor(AndroidViewComponent component, int textColor) {
+    android.view.View view = component.getView();
+    if (view instanceof android.widget.TextView) {
+        android.widget.TextView textView = (android.widget.TextView) view;
+        textView.setTextColor(textColor);
+    }
+}
+
+@SimpleFunction
+public void Text(AndroidViewComponent component, String text) {
+    android.view.View view = component.getView();
+    if (view instanceof android.widget.TextView) {
+        android.widget.TextView textView = (android.widget.TextView) view;
+        textView.setText(text);
+    }
+}
+
+
     @SimpleFunction(description = "Copies every component on-screen by creating components dynamically")
     public void Copy(AndroidViewComponent layout, int id) {
         try {
