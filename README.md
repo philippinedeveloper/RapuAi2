@@ -5,7 +5,7 @@ An extension for MIT App Inventor 2.<br>
 
 ## 📝 Specifications
 * **
-💾 **Size:** 17.66 KB
+💾 **Size:** 22 KB
 ⚙️ **Version:** 3.3
 📱 **Minimum API Level:** 7
 📅 **Updated On:** [date=2025-01-14 timezone="Asia/Taipei"]
