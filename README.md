@@ -8,7 +8,7 @@ An extension for MIT App Inventor 2.<br>
 💾 **Size:** 22 KB
 ⚙️ **Version:** 3.3
 📱 **Minimum API Level:** 7
-📅 **Updated On:** [date=2025-01-14 timezone="Asia/Taipei"]
+📅 **Updated On:** January 14, 2025 (Asia/Taipei)
 
 ## <kbd>Events:</kbd>
 **Rapu** has total 9 events.
