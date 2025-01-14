@@ -10,7 +10,6 @@ Extension component for Rapu. Created using Rush.
 ⚙️ **Version:** 3.4
 📱 **Minimum API Level:** 7
 📅 **Updated On:** [date=2025-01-14 timezone="Asia/Taipei"]
-💻 **Built & documented using:** [FAST-CLI](https://community.appinventor.mit.edu/t/fast-an-efficient-way-to-build-extensions/129103?u=jewel)
 
 ## <kbd>Events:</kbd>
 **Rapu** has total 9 events.
