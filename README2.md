@@ -1,7 +1,6 @@
 <div align="center">
 <h1><kbd>🧩 Rapu</kbd></h1>
 An extension for MIT App Inventor 2.<br>
-Extension component for Rapu. Created using Rush.
 </div>
 
 ## 📝 Specifications
