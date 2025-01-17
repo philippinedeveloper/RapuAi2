@@ -1,6 +1,6 @@
 /* Extension written by Bextdev, written on the 28th of December 2024
  *
- * Bits of code written by yusufcihan & Kumaraswamy B G
+ * Bits of code written by yusufcihan, Kumaraswamy B G, Gordon Lu & Evan (MIT).
  *
  * Licensed under GNU General Public License V2
  *
@@ -8,6 +8,7 @@
 
 package ph.bxtdev.Rapu;
 
+import kawa.standard.Scheme;
 import android.util.Log;
 import android.app.Activity;
 import android.content.Context;
@@ -39,6 +40,7 @@ public class Rapu extends AndroidNonvisibleComponent {
     private Form form;
     private Map<String, Component> components = new HashMap<>();
     private Map<String, Component> newComponents = new HashMap<>();
+    private String TAG = this.getClass().getSimpleName();
 
     public Rapu(ComponentContainer container) {
         super(container.$form());
@@ -392,6 +394,43 @@ public void Text(AndroidViewComponent component, String text) {
     return components;
   }
 
+  private Object lookupComponentInRepl(String componentName) {
+    Scheme lang = Scheme.getInstance();
+    try {
+      // Since we're in the REPL, we can cheat and invoke the Scheme interpreter to get the method.
+      Object result = lang.eval("(begin (require <com.google.youngandroid.runtime>)(get-component " +
+              componentName + "))");
+      if (result instanceof Component) {
+        return (Component) result;
+      } else {
+        Log.e(TAG, "Wanted a Component, but got a " +
+                (result == null ? "null" : result.getClass().toString()));
+      }
+    } catch (Throwable throwable) {
+      throwable.printStackTrace();
+    }
+    return "";
+  }
+
+
+  private Object lookupComponentInForm(String componentName) {
+    try {
+      // Get the field by name
+      Field field = form.getClass().getField(componentName);
+      // Get the field's value, since field itself isn't a Component
+      Object component = field.get(form);
+      if (component instanceof Component) {
+        return (Component) component;
+      } else {
+        Log.e(TAG, "Wanted a Component, but got a " +
+                (component == null ? "null" : component.getClass().toString()));
+      }
+    } catch (NoSuchFieldException | IllegalAccessException e) {
+      Log.e(TAG, "Error accessing component: " + componentName, e);
+    }
+    return "";
+  }
+
     @SimpleFunction(description = "Enables drag and drop functionality on a component")
 public void EnableDragAndDrop(AndroidViewComponent component) {
     View view = component.getView();
@@ -560,7 +599,20 @@ public void Drop(AndroidViewComponent component, int x, int y) {
 
     @SimpleFunction(description = "Gets component using name & id")
     public Object GetComponent(String componentName){
-      return (Component) newComponents.get(componentName + true);
+      if (form instanceof ReplForm) {
+         return lookupComponentInRepl(componentName);
+      } else {
+         return lookupComponentInForm(componentName);
+      }
+    }
+
+    @SimpleFunction(description = "Checks if component is an extension")
+    public boolean IsExtension(String componentName){
+      if (form instanceof ReplForm) {
+         return !lookupComponentInRepl(componentName).getClass().getName().startsWith("com.google.appinventor.components.runtime");
+      } else {
+         return !lookupComponentInForm(componentName).getClass().getName().startsWith("com.google.appinventor.components.runtime");
+      }
     }
 
       @SimpleFunction(description = "Checks whether the component is currently able to take focus.")
