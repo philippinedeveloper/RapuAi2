@@ -1,14 +1,15 @@
 <div align="center">
 <h1><kbd>🧩 Rapu</kbd></h1>
 An extension for MIT App Inventor 2.<br>
+Extension component for Rapu. Created using Rush.
 </div>
 
 ## 📝 Specifications
 * **
-💾 **Size:** 22 KB
-⚙️ **Version:** 3.3
+💾 **Size:** 17 KB
+⚙️ **Version:** 3.4
 📱 **Minimum API Level:** 7
-📅 **Updated On:** January 3, 2025 (Asia/Taipei)
+📅 **Updated On:** 2025-1-17
 
 ## <kbd>Events:</kbd>
 **Rapu** has total 9 events.
@@ -65,7 +66,7 @@ This event is fired when a registered component has focus removed.
 | component | component
 
 ## <kbd>Methods:</kbd>
-**Rapu** has total 55 methods.
+**Rapu** has total 56 methods.
 
 ### 💜 BackgroundColor
 Method for BackgroundColor
@@ -440,6 +441,47 @@ Sets the top position of this component relative to its parent, in pixels.
 
 ### 💜 SetBottom
 Sets the bottom position of this component relative to its parent, in pixels.
+
+| Parameter | Type
+| - | - |
+| component | component
+| bottom | number
+
+### 💜 GetComponent
+Gets component using name & id
+
+| Parameter | Type
+| - | - |
+| componentName | text
+
+### 💜 IsExtension
+Checks if component is an extension
+
+| Parameter | Type
+| - | - |
+| componentName | text
+
+### 💜 IsFocusable
+Checks whether the component is currently able to take focus.
+
+| Parameter | Type
+| - | - |
+| component | component
+
+### 💜 SetFocusable
+Set whether this component can receive the focus.
+
+| Parameter | Type
+| - | - |
+| component | component
+| focusable | boolean
+
+### 💜 RegisterFocus
+Registers the component so that when the user focuses or removes focus for the component, it will fire the respective event.
+
+| Parameter | Type
+| - | - |
+| component | component
 
 | Parameter | Type
 | - | - |
