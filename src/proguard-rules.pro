@@ -1,8 +1,6 @@
 # Add any ProGuard configurations specific to this
 # extension here.
 
--dontwarn
-
 -keep public class ph.bxtdev.Rapu.Rapu {
     public *;
  }

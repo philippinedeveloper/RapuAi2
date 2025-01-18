@@ -597,9 +597,14 @@ public void Drop(AndroidViewComponent component, int x, int y) {
         view.setBottom(bottom);
     }
 
-    @SimpleFunction(description = "Gets component using name & id")
+    @SimpleFunction(description = "Gets component using name & id (For dynamically created components ONLY)")
     public Object GetComponent(String componentName){
-      if (form instanceof ReplForm) {
+      return (Component) newComponents.get(componentName + "true");
+    }
+
+    @SimpleFunction(description = "Gets component by name (This doesn't work on dynamically created components)")
+    public Object GetComponentByName(String componentName){
+      if(form instanceof ReplForm){
          return lookupComponentInRepl(componentName);
       } else {
          return lookupComponentInForm(componentName);
