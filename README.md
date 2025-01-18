@@ -7,7 +7,7 @@ Extension component for Rapu. Created using Rush.
 ## 📝 Specifications
 * **
 💾 **Size:** 17 KB
-⚙️ **Version:** 3.4
+⚙️ **Version:** 3.5
 📱 **Minimum API Level:** 7
 📅 **Updated On:** 2025-1-17
 
@@ -66,7 +66,7 @@ This event is fired when a registered component has focus removed.
 | component | component
 
 ## <kbd>Methods:</kbd>
-**Rapu** has total 56 methods.
+**Rapu** has total 57 methods.
 
 ### 💜 BackgroundColor
 Method for BackgroundColor
@@ -489,7 +489,14 @@ Registers the component so that when the user focuses or removes focus for the c
 | bottom | number
 
 ### 💜 GetComponent
-Gets component using name & id
+Gets component using name & id (For dynamically created components ONLY)
+
+| Parameter | Type
+| - | - |
+| componentName | text
+
+### 💜 GetComponentByName
+Gets component using name & id (This doesn't work on dynamically created components)
 
 | Parameter | Type
 | - | - |
