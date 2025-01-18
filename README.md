@@ -7,7 +7,7 @@ Extension component for Rapu. Created using Rush.
 ## 📝 Specifications
 * **
 💾 **Size:** 17 KB
-⚙️ **Version:** 3.5
+⚙️ **Version:** 4
 📱 **Minimum API Level:** 7
 📅 **Updated On:** 2025-1-17
 
