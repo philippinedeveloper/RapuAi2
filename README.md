@@ -524,3 +524,4 @@ Registers the component so that when the user focuses or removes focus for the c
 | - | - |
 | component | component
 
+Updated extension: <a href="https://github.com/philippinedeveloper/RapuAI2New">RapuAI2 Updated Extension (v4.1 and above)</a>
