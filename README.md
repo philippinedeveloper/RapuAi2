@@ -1,15 +1,15 @@
 <div align="center">
 <h1><kbd>🧩 Rapu</kbd></h1>
 An extension for MIT App Inventor 2.<br>
-Extension component for Rapu. Created using Rush.
+Extension component for Rapu. Created using Rush. 
 </div>
 
 ## 📝 Specifications
 * **
-💾 **Size:** 17 KB
+💾 **Size:** 29.5 KB
 ⚙️ **Version:** 4
 📱 **Minimum API Level:** 7
-📅 **Updated On:** 2025-1-17
+📅 **Updated On:** 2025-1-22
 
 ## <kbd>Events:</kbd>
 **Rapu** has total 9 events.
